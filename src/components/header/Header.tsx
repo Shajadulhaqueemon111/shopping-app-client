@@ -5,7 +5,7 @@ import MIddleHeader from "./MiddleHeader";
 
 const Header = () => {
   return (
-    <div>
+    <div className="sticky top-0 z-50 bg-white">
       <TopHeader></TopHeader>
       <MIddleHeader></MIddleHeader>
       <BottomHeader></BottomHeader>
