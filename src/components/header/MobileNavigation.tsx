@@ -34,7 +34,7 @@ const MobileNavigation = () => {
           <div className="flex min-h-full items-center justify-center p-4 bg-black/90">
             <DialogPanel
               transition
-              className="w-[94%] space-y-4  border border-white rounded-md absolute top-8 m-10 bg-black  p-6 duration-300 "
+              className="w-[94%] space-y-4  border border-white rounded-md absolute top-8 m-44 bg-black  p-6 duration-300 "
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-white">Navigation Menue</h3>
