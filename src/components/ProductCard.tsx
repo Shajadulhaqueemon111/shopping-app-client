@@ -24,7 +24,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           {product?.discountPercentage}%
         </p>
       </Link>
-      <Sidebar />
+      <Sidebar product={product} />
       <div className="border-t border-t-white py-2 px-4 flex flex-col justify-between h-40">
         <div>
           <p className="text-sm font-medium  capitalize">{product?.category}</p>
@@ -32,7 +32,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           <ProductPrice product={product} />
         </div>
 
-        <AddToCardBtn />
+        <AddToCardBtn product={product} />
       </div>
     </div>
   );

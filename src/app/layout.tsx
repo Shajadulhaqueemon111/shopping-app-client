@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import Layout from "@/components/Layout";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Shopping-ecommerce-App",
@@ -17,9 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` antialiased`}>
-        <Header></Header>
-        {children}
-        <Footer></Footer>
+        <Layout>
+          <Header></Header>
+          {children}
+          <Footer></Footer>
+          <Toaster />
+        </Layout>
       </body>
     </html>
   );
