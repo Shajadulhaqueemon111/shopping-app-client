@@ -71,7 +71,7 @@ const CardProduct = ({ product }: { product: ProductType }) => {
               )}
             </div>
             <div>
-              <p className="flex items-center gap-1">
+              <div className="flex items-center gap-1">
                 <span>You are saving</span>
                 <PriceFormat
                   className="text-blue-600"
@@ -81,7 +81,7 @@ const CardProduct = ({ product }: { product: ProductType }) => {
                     product?.quantity!
                   }
                 />
-              </p>
+              </div>
             </div>
           </div>
 

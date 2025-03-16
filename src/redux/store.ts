@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import { configureStore } from "@reduxjs/toolkit";
 import shopingReducer from "./shopingSlice";
 import { persistStore, persistReducer, WebStorage } from "redux-persist";
@@ -38,6 +37,10 @@ export const store = configureStore({
   reducer: {
     shoping: persistedReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
-export let persistor = persistStore(store);
+export const persistor = persistStore(store);

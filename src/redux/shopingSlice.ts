@@ -80,5 +80,6 @@ export const {
   removeFromCart,
   addToFavorite,
   resetFavorite,
+  resetCart,
 } = shoppingSlice.actions;
 export default shoppingSlice.reducer;
