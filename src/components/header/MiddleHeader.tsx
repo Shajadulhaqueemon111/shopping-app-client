@@ -7,7 +7,9 @@ import Link from "next/link";
 
 import HeadersIcon from "./HeadersIcon";
 import MobileNavigation from "./MobileNavigation";
-import SingInButton from "./SingInButton";
+import Button from "../banner/Button";
+
+// import SingInButton from "./SingInButton";
 
 const MIddleHeader = () => {
   return (
@@ -18,11 +20,13 @@ const MIddleHeader = () => {
         </Link>
         <SearchInput></SearchInput>
         <div className="hidden md:inline-flex items-center gap-3">
-          <Link href="/singin" className="flex items-center gap-2 text-sm">
+          <Link href="/register" className="flex items-center gap-2 text-sm">
             <div>
-              <SingInButton />
+              {/* <SingInButton></SingInButton> */}
+              <Button className="btn  btn-primary">Register</Button>
             </div>
           </Link>
+
           <HeadersIcon></HeadersIcon>
         </div>
         <MobileNavigation></MobileNavigation>

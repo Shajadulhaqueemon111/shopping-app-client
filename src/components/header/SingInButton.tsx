@@ -40,7 +40,7 @@ const SingInButton = () => {
 
           <div>
             <p className="text-sm">Hellow,Guests</p>
-            <p className="font-medium">Login/Register</p>
+            <p className="font-medium">Register</p>
           </div>
         </div>
       )}
