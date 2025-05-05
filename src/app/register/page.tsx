@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 
 const RegisterForm = () => {
@@ -130,6 +131,12 @@ const RegisterForm = () => {
         >
           Register
         </button>
+        <p className="text-sm">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-600 hover:text-blue-800">
+            Login here
+          </Link>
+        </p>
       </form>
     </div>
   );
