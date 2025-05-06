@@ -23,7 +23,6 @@ const MIddleHeader = () => {
           <Link href="/register" className="flex items-center gap-2 text-sm">
             <div>
               <SingInButton></SingInButton>
-              {/* <Button className="btn  btn-primary">Register</Button> */}
             </div>
           </Link>
 

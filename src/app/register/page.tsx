@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -7,6 +8,17 @@ import toast from "react-hot-toast";
 
 const RegisterForm = () => {
   const router = useRouter();
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "http://localhost:3000/dashboard" }); // or any route after login
+  };
+
+  const handleGitHubSignIn = () => {
+    signIn("github", { callbackUrl: "http://localhost:3000" });
+  };
+  const handleFacebookSignIn = () => {
+    signIn("github", { callbackUrl: "http://localhost:3000" });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -142,6 +154,29 @@ const RegisterForm = () => {
             Login here
           </Link>
         </p>
+        <div className="space-y-2">
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl transition duration-300"
+          >
+            Sign in with Google
+          </button>
+          <button
+            type="button"
+            onClick={handleGitHubSignIn}
+            className="w-full py-2 px-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-xl transition duration-300"
+          >
+            Sign in with GitHub
+          </button>
+          <button
+            type="button"
+            onClick={handleFacebookSignIn}
+            className="w-full py-2 px-4 bg-blue-800 hover:bg-blue-900 text-white font-semibold rounded-xl transition duration-300"
+          >
+            Sign in with Facebook
+          </button>
+        </div>
       </form>
     </div>
   );
