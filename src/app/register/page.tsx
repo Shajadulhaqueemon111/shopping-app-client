@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -40,9 +43,11 @@ const RegisterForm = () => {
       if (!response.ok) {
         throw new Error(result.message || "Registration failed");
       }
-
+      toast.success("User registered  Successfully!");
+      router.push("/login");
       console.log("User registered:", result);
     } catch (error) {
+      toast.error("Error registering user");
       console.error("Error registering user:", error);
     }
   };

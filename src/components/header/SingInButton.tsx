@@ -1,12 +1,14 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import { LiaUser } from "react-icons/lia";
+import { useRouter } from "next/navigation";
 
 const SingInButton = () => {
   const { data: session } = useSession();
-  console.log(session);
+  const router = useRouter(); // use router to redirect
+
   return (
     <>
       {session?.user ? (
@@ -20,7 +22,7 @@ const SingInButton = () => {
               alt="Image"
               width={50}
               height={50}
-              className=" object-cover rounded-full"
+              className="object-cover rounded-full"
             />
           </div>
 
@@ -31,7 +33,7 @@ const SingInButton = () => {
         </div>
       ) : (
         <div
-          onClick={() => signIn()}
+          onClick={() => router.push("/register")} // 🔁 redirect to custom register page
           className="flex items-center gap-2 text-sm cursor-pointer"
         >
           <div className="border-2 border-gray-300 p-1.5 rounded-full text-xl ">
@@ -39,7 +41,7 @@ const SingInButton = () => {
           </div>
 
           <div>
-            <p className="text-sm">Hellow,Guests</p>
+            <p className="text-sm">Hello, Guest</p>
             <p className="font-medium">Register</p>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const SignInPage = () => {
   // State to manage input fields
@@ -30,12 +31,15 @@ const SignInPage = () => {
       });
 
       if (response.ok) {
+        toast.success("User Logged in Successfully!");
         const data = await response.json();
         localStorage.setItem("accessToken", data.accessToken);
+
         console.log("Logged in successfully", data);
         router.push("/");
       } else {
         const errorData = await response.json();
+        toast.error("please valid password and email");
         console.error("Login failed", errorData);
         alert(errorData.message || "Login failed. Please try again.");
       }
