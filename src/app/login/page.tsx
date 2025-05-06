@@ -31,6 +31,7 @@ const SignInPage = () => {
 
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem("accessToken", data.accessToken);
         console.log("Logged in successfully", data);
         router.push("/");
       } else {
