@@ -6,7 +6,8 @@ import React from "react";
 import { LiaUser } from "react-icons/lia";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/authContext/contaxt";
-
+const DEFAULT_IMAGE =
+  "https://i.ibb.co/fznjZ8tx/cute-little-girl-running-joyful-lush-field-night-try-to-catch-th-brightly-star-wildflowers-cartoon-a.webp";
 const SignInButton = () => {
   const { data: session, status } = useSession();
   const { user: jwtUser, logout: ctxLogout } = useAuth();
@@ -22,7 +23,7 @@ const SignInButton = () => {
     : jwtUser
     ? {
         role: jwtUser.role,
-        image: jwtUser.profilImage || "/default-avatar.png",
+        image: jwtUser.profilImage || DEFAULT_IMAGE,
       }
     : null;
 
