@@ -9,14 +9,14 @@ import toast from "react-hot-toast";
 const RegisterForm = () => {
   const router = useRouter();
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "http://localhost:3000/dashboard" }); // or any route after login
+    signIn("google", { callbackUrl: "http://localhost:3000" }); // or any route after login
   };
 
   const handleGitHubSignIn = () => {
     signIn("github", { callbackUrl: "http://localhost:3000" });
   };
   const handleFacebookSignIn = () => {
-    signIn("github", { callbackUrl: "http://localhost:3000" });
+    signIn("facebook", { callbackUrl: "http://localhost:3000" });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

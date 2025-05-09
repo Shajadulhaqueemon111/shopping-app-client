@@ -1,51 +1,84 @@
+// src/app/login/page.tsx
 "use client";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuth } from "../authContext/contaxt";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+  email?: string;
+  role?: string;
+  // ...অন্যান্য প্রোপার্টি
+}
 
 const SignInPage = () => {
-  // State to manage input fields
+  const { setUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  // Handle login form submission
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent page reload on form submission
 
-    // Basic validation before making API call
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!email || !password) {
-      alert("Please enter both email and password");
+      toast.error("Enter both email and password");
       return;
     }
 
     try {
-      // You can make an API call to the backend here
       const response = await fetch("http://localhost:5001/api/v1/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
+        body: JSON.stringify({ email, password }),
       });
 
-      if (response.ok) {
-        toast.success("User Logged in Successfully!");
-        const data = await response.json();
-        localStorage.setItem("accessToken", data.accessToken);
-
-        console.log("Logged in successfully", data);
-        router.push("/");
-      } else {
-        const errorData = await response.json();
-        toast.error("please valid password and email");
-        console.error("Login failed", errorData);
-        alert(errorData.message || "Login failed. Please try again.");
+      if (!response.ok) {
+        const err = await response.json();
+        toast.error(err.message || "Login failed");
+        return;
       }
+
+      const data = await response.json();
+      console.log(data);
+      toast.success("Logged in successfully!");
+      const token = data.data?.accessToken;
+      if (!token) {
+        console.error("Token missing!", data);
+        toast.error("Invalid token received");
+        return;
+      }
+      console.log("✔️ Got token:", token);
+
+      // 1) AccessToken & RefreshToken already সেট হচ্ছে
+      localStorage.setItem("accessToken", data.data.accessToken);
+
+      // পরবর্তীতে কোথাও দরকার হলে…
+      // const storedToken = localStorage.getItem("accessToken");
+
+      // 2) Decode token (optional, যদি response.data বাদ দিয়ে টোকেনের ভিতর থেকে পেতে চান)
+      const decoded = jwtDecode<DecodedToken>(token);
+      console.log("decode:", decoded);
+      const userEmail = decoded.email || data.data.email;
+      const userRole = decoded.role || data.data.role;
+
+      // 3) Context & localStorage–এ ইউজার সেট
+      const loggedInUser = {
+        name: data.data.name,
+        email: userEmail,
+        role: userRole,
+        image: data.data.profilImage,
+      };
+      setUser(loggedInUser);
+      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+
+      // 4) Redirect
+      router.push("/");
     } catch (error) {
       console.error("Error logging in:", error);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong");
     }
   };
 
@@ -57,7 +90,6 @@ const SignInPage = () => {
       >
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 
-        {/* Email Input */}
         <div>
           <label
             htmlFor="email"
@@ -66,18 +98,16 @@ const SignInPage = () => {
             Email
           </label>
           <input
-            type="email"
-            name="email"
             id="email"
+            type="email"
             placeholder="john.doe@example.com"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update state on input change
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Password Input */}
         <div>
           <label
             htmlFor="password"
@@ -86,18 +116,16 @@ const SignInPage = () => {
             Password
           </label>
           <input
-            type="password"
-            name="password"
             id="password"
+            type="password"
             placeholder="••••••••"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // Update state on input change
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Login Button */}
         <button
           type="submit"
           className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition duration-300"

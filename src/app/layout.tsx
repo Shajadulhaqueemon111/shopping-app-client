@@ -5,6 +5,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Layout from "@/components/Layout";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./authContext/contaxt";
 
 export const metadata: Metadata = {
   title: "Shopping-ecommerce-App",
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` antialiased`}>
-        <Layout>
-          <Header></Header>
-          {children}
-          <Footer></Footer>
-          <Toaster />
-        </Layout>
+        <AuthProvider>
+          <Layout>
+            <Header></Header>
+            {children}
+            <Footer></Footer>
+            <Toaster />
+          </Layout>
+        </AuthProvider>
       </body>
     </html>
   );
