@@ -10,6 +10,7 @@ import { jwtDecode } from "jwt-decode";
 interface DecodedToken {
   email?: string;
   role?: string;
+  profilImage?: string;
   // ...অন্যান্য প্রোপার্টি
 }
 
@@ -63,14 +64,14 @@ const SignInPage = () => {
       console.log("decode:", decoded);
       const userEmail = decoded.email || data.data.email;
       const userRole = decoded.role || data.data.role;
-
+      const userProfile = decoded.profilImage || data.data.profilImage;
       // 3) Context & localStorage–এ ইউজার সেট
       const loggedInUser = {
-        name: data.data.name,
         email: userEmail,
         role: userRole,
-        image: data.data.profilImage,
+        profilImage: userProfile,
       };
+      console.log(loggedInUser);
       setUser(loggedInUser);
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 

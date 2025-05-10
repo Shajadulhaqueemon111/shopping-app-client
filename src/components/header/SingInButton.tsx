@@ -41,7 +41,7 @@ const SignInButton = () => {
       >
         <div className="border-2 border-gray-300 p-1.5 rounded-full text-xl">
           <Image
-            src={user.image}
+            src={user?.image}
             alt="Profile"
             width={30}
             height={30}
