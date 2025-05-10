@@ -6,6 +6,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "../authContext/contaxt";
 import { jwtDecode } from "jwt-decode";
+import Link from "next/link";
 
 interface DecodedToken {
   email?: string;
@@ -133,6 +134,12 @@ const SignInPage = () => {
         >
           Login
         </button>
+        <p className="text-sm">
+          Do not have an account?{" "}
+          <Link href="/register" className="text-blue-600 hover:text-blue-800">
+            SingUp here
+          </Link>
+        </p>
       </form>
     </div>
   );

@@ -12,7 +12,7 @@ const HeadersIcon = () => {
   console.log(cart, favorite);
   return (
     <div className="flex md:inline-flex items-center justify-center gap-3">
-      <Link href="/favriout" className="text-2xl relative">
+      <Link href="/favariout" className="text-2xl relative">
         <MdFavoriteBorder />
         <span className="absolute -top-1 -right-1 text-[10px] font-medium w-4 h-4 bg-blue-500 text-white rounded-full flex items-center justify-center">
           {favorite?.length > 0 ? favorite?.length : "0"}

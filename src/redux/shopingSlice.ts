@@ -67,6 +67,11 @@ export const shoppingSlice = createSlice({
         state.favorite.push(action.payload);
       }
     },
+    removeFromFavorite: (state, action) => {
+      state.favorite = state.favorite.filter(
+        (item) => item?.id !== action.payload
+      );
+    },
     resetFavorite: (state) => {
       state.favorite = [];
     },
@@ -81,5 +86,6 @@ export const {
   addToFavorite,
   resetFavorite,
   resetCart,
+  removeFromFavorite,
 } = shoppingSlice.actions;
 export default shoppingSlice.reducer;
