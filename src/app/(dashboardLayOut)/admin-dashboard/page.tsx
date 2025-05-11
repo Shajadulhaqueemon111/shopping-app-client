@@ -1,6 +1,7 @@
 // app/admin-dashboard/page.tsx
 "use client";
 import React from "react";
+// import AdminProtectedRoute from "../adminProtectedRoute/page";
 
 const AdminDashboardPage = () => {
   return (

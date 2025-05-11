@@ -77,9 +77,12 @@ const SignInPage = () => {
       console.log(loggedInUser);
       setUser(loggedInUser);
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-
+      if (loggedInUser.role === "admin") {
+        router.push("/admin-dashboard");
+      } else {
+        router.push("/");
+      }
       // 4) Redirect
-      router.push("/");
     } catch (error) {
       console.error("Error logging in:", error);
       toast.error("Something went wrong");
