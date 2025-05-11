@@ -1,7 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { logOut } from "../login";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import { refreshAccessToken } from "../login/refreshToken";
 
 interface User {
   email: string;
@@ -23,11 +28,57 @@ const AuthContext = createContext<AuthContextProps>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-
+  const router = useRouter();
   // Optionally restore user from localStorage
+  // useEffect(() => {
+  //   const savedUser = localStorage.getItem("loggedInUser");
+  //   const token = localStorage.getItem("accessToken");
+
+  //   if (savedUser) setUser(JSON.parse(savedUser));
+
+  //   if (token) {
+  //     try {
+  //       const decoded: { exp: number } = jwtDecode(token);
+  //       const expirationTime = decoded.exp * 1000;
+  //       if (Date.now() > expirationTime) {
+  //         toast.error("token have an expired !");
+  //         logout();
+  //         router.push("/login");
+  //       }
+  //     } catch {
+  //       logout();
+  //       router.push("/login");
+  //     }
+  //   }
+  // }, []);
   useEffect(() => {
     const savedUser = localStorage.getItem("loggedInUser");
+    const token = localStorage.getItem("accessToken");
+
     if (savedUser) setUser(JSON.parse(savedUser));
+
+    const checkTokenValidity = async () => {
+      if (token) {
+        try {
+          const decoded: { exp: number } = jwtDecode(token);
+          const expirationTime = decoded.exp * 1000;
+
+          if (Date.now() > expirationTime) {
+            const refreshed = await refreshAccessToken(setUser);
+            if (!refreshed) {
+              toast.error("Session expired. Please login again.");
+              logout();
+              router.push("/login");
+            }
+          }
+        } catch {
+          logout();
+          router.push("/login");
+        }
+      }
+    };
+
+    checkTokenValidity();
   }, []);
 
   const logout = () => {

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { ProductType } from "@/constants/helpers/type";
 import Image from "next/image";

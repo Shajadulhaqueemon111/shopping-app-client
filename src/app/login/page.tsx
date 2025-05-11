@@ -12,7 +12,7 @@ interface DecodedToken {
   email?: string;
   role?: string;
   profilImage?: string;
-  // ...অন্যান্য প্রোপার্টি
+  exp?: number;
 }
 
 const SignInPage = () => {
@@ -66,11 +66,13 @@ const SignInPage = () => {
       const userEmail = decoded.email || data.data.email;
       const userRole = decoded.role || data.data.role;
       const userProfile = decoded.profilImage || data.data.profilImage;
+      const exp = decoded.exp || data.data.exp;
       // 3) Context & localStorage–এ ইউজার সেট
       const loggedInUser = {
         email: userEmail,
         role: userRole,
         profilImage: userProfile,
+        exp: exp,
       };
       console.log(loggedInUser);
       setUser(loggedInUser);
