@@ -1,25 +1,26 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const UpdatedUser = () => {
-  const { user } = useParams();
+  const { userId } = useParams();
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-
+  const router = useRouter();
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const token = localStorage.getItem("accessToken");
       const response = await fetch(
-        `http://localhost:5001/api/v1/users/${user}`,
+        `http://localhost:5001/api/v1/users/${userId}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: ` ${token}`,
           },
           body: JSON.stringify({ email, role }),
         }
@@ -28,16 +29,17 @@ const UpdatedUser = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert("User updated successfully!");
+        toast.success("User updated successfully!");
         console.log(result);
       } else {
         console.error("Update failed:", result.message || result);
-        alert("Update failed");
+        toast.error("Update failed");
       }
     } catch (error) {
       console.error("Error updating user:", error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
+    router.push("/admin-dashboard/users");
   };
 
   return (
@@ -63,9 +65,9 @@ const UpdatedUser = () => {
             required
           >
             <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="seller">Seller</option>
-            <option value="user">User</option>
+            <option value="admin">admin</option>
+
+            <option value="user">user</option>
           </select>
         </div>
         <button
