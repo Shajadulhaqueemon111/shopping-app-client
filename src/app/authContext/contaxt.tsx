@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { logOut } from "../login";
-import toast from "react-hot-toast";
+
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { refreshAccessToken } from "../login/refreshToken";
@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           if (Date.now() > expirationTime) {
             const refreshed = await refreshAccessToken(setUser);
             if (!refreshed) {
-              toast.error("Session expired. Please login again.");
               logout();
               router.push("/login");
             }

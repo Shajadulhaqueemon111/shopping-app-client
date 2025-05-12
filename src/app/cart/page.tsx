@@ -15,7 +15,7 @@ const AllCartpage = () => {
   console.log("User from Context:", user);
 
   if (!session?.user && !user?.email) {
-    redirect("/");
+    redirect("/login");
   }
   return (
     <Container>
