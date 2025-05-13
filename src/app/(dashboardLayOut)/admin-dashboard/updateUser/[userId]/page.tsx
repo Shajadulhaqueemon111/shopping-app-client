@@ -31,6 +31,14 @@ const UpdatedUser = () => {
       if (response.ok) {
         toast.success("User updated successfully!");
         console.log(result);
+
+        if (result?.accessToken) {
+          localStorage.setItem("accessToken", result.accessToken);
+          console.log("✅ New Token Saved:", result.accessToken);
+        }
+
+        // ✅ রিডাইরেক্ট
+        router.push("/admin-dashboard/users");
       } else {
         console.error("Update failed:", result.message || result);
         toast.error("Update failed");
@@ -39,7 +47,6 @@ const UpdatedUser = () => {
       console.error("Error updating user:", error);
       toast.error("Something went wrong");
     }
-    router.push("/admin-dashboard/users");
   };
 
   return (

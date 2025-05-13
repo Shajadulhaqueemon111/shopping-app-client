@@ -1,6 +1,6 @@
 // app/admin-dashboard/page.tsx
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Users, DollarSign, ShoppingCart } from "lucide-react";
 import {
   PieChart,
@@ -19,8 +19,24 @@ const pieData = [
 ];
 
 const COLORS = ["#4F46E5", "#10B981", "#F59E0B", "#EF4444"];
-
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+};
 const AdminDashboardPage = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    fetch("http://localhost:5001/api/v1/users", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+    }) // তোমার ইউজার API endpoint
+      .then((res) => res.json())
+      .then((data) => setUsers(data.data));
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
@@ -39,7 +55,9 @@ const AdminDashboardPage = () => {
               <h2 className="text-lg font-semibold text-gray-700">
                 Total Users
               </h2>
-              <p className="text-2xl font-bold text-gray-900">1,204</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {users?.length || 0}
+              </p>
             </div>
           </div>
         </div>

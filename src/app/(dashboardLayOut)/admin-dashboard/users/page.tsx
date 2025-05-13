@@ -6,6 +6,8 @@ import { Hourglass } from "react-loader-spinner";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface User {
   _id: string;
@@ -18,11 +20,18 @@ const AllUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("accessToken");
+        console.log("Token:", token);
+
+        if (!token) {
+          toast.error("Please login first");
+          router.push("/login");
+          return;
+        }
 
         const response = await fetch("http://localhost:5001/api/v1/users", {
           headers: {
