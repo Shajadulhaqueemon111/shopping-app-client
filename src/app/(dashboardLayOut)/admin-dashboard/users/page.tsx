@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Hourglass } from "react-loader-spinner";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 interface User {
   _id: string;
@@ -32,8 +34,8 @@ const AllUsers = () => {
         const result = await response.json();
         console.log("API response:", result);
 
-        if (Array.isArray(result.data)) {
-          setUsers(result.data);
+        if (Array.isArray(result?.data)) {
+          setUsers(result?.data);
         } else {
           throw new Error("Invalid data format received from API");
         }
@@ -48,41 +50,53 @@ const AllUsers = () => {
     fetchData();
   }, []);
 
-  // const handleUpdate = async (_id: string) => {
-  //   console.log("Update user:", _id);
-
-  //   try {
-  //     const token = localStorage.getItem("accessToken"); // or wherever you store the token
-
-  //     const response = await fetch(
-  //       `http://localhost:5001/api/v1/users/${_id}`,
-  //       {
-  //         method: "PATCH", // use PATCH or PUT depending on your backend
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({
-  //           role: "admin", // 👈 example update data
-  //         }),
-  //       }
-  //     );
-
-  //     const result = await response.json();
-
-  //     if (response.ok) {
-  //       console.log("User updated successfully", result);
-  //       // Optionally: re-fetch users or update state
-  //     } else {
-  //       console.error("Update failed:", result.message || result);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating user:", error);
-  //   }
-  // };
-
   const handleDelete = (id: string) => {
-    console.log("Delete user:", id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("accessToken");
+        fetch(`http://localhost:5001/api/v1/users/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: ` ${token}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "The user has been deleted.",
+                icon: "success",
+              });
+              // Directly remove the deleted user from the state
+              setUsers((prevUsers) =>
+                prevUsers.filter((user) => user._id !== id)
+              ); // Update your users state
+            } else {
+              Swal.fire({
+                title: "Error!",
+                text: "There was an issue deleting the user.",
+                icon: "error",
+              });
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong.",
+              icon: "error",
+            });
+          });
+      }
+    });
   };
 
   return (
