@@ -1,4 +1,3 @@
-// components/Sidebar.tsx
 "use client";
 import Link from "next/link";
 
@@ -8,13 +7,24 @@ const Sidebar = () => {
       <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
       <ul className="space-y-3">
         <li>
-          <Link href="/admin-dashboard">Dashboard</Link>
+          <Link className=" font-bold" href="/admin-dashboard">
+            Dashboard
+          </Link>
         </li>
         <li>
-          <Link href="/admin-dashboard/users">Users</Link>
+          <Link className=" font-bold" href="/admin-dashboard/users">
+            Users
+          </Link>
         </li>
         <li>
-          <Link href="/admin-dashboard/allProduct">Product</Link>
+          <Link className=" font-bold" href="/admin-dashboard/allProduct">
+            Product-Manage
+          </Link>
+        </li>
+        <li>
+          <Link className=" font-bold" href="/admin-dashboard/createProduct">
+            Product-Create
+          </Link>
         </li>
       </ul>
     </aside>
