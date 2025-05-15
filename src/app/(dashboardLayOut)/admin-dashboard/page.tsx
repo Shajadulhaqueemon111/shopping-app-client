@@ -33,7 +33,7 @@ const AdminDashboardPage = () => {
         "Content-Type": "application/json",
         Authorization: `${token}`,
       },
-    }) // তোমার ইউজার API endpoint
+    })
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
   }, []);

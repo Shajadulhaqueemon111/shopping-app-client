@@ -14,7 +14,7 @@ const Sidebar = () => {
           <Link href="/admin-dashboard/users">Users</Link>
         </li>
         <li>
-          <Link href="/dashboard/settings">Settings</Link>
+          <Link href="/admin-dashboard/allProduct">Product</Link>
         </li>
       </ul>
     </aside>
